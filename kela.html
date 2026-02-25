@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基拉支持者 · 新世界之神</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+        }
+
+        /* 哥特暗黑背景 + 流动的血色光晕 */
+        body {
+            min-height: 100vh;
+            background: #0a0000;
+            background-image: radial-gradient(circle at 30% 40%, #3a0f0f 0%, #000000 80%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            animation: bloodPulse 12s infinite alternate;
+        }
+
+        @keyframes bloodPulse {
+            0% { background-color: #0a0000; }
+            100% { background-color: #1f0404; }
+        }
+
+        /* 泛黄的羊皮纸纹理叠加 (纯css) */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(70, 10, 10, 0.1) 0px, rgba(70, 10, 10, 0.1) 2px,
+                transparent 2px, transparent 6px),
+                linear-gradient(135deg, transparent 60%, rgba(180, 40, 40, 0.2) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(10, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border: 2px solid #8b1a1a;
+            box-shadow: 0 0 40px #b30000, inset 0 0 20px #4d0000;
+            padding: 30px 25px;
+            border-radius: 32px 32px 16px 16px;
+            color: #f0d5d5;
+        }
+
+        /* 标题区——浮动苹果 + 死亡笔记图标 */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed #a53b3b;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px #ff3b3b, 0 0 30px #8b0000;
+            background: linear-gradient(45deg, #f1c2c2, #ff6a6a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            2%, 6% { transform: skew(2deg, 1deg); text-shadow: -3px 0 red, 3px 0 blue; }
+            4% { transform: skew(-2deg, -1deg); text-shadow: 2px 0 red, -2px 0 blue; }
+            8% { transform: skew(0); text-shadow: 0 0 15px #ff3b3b; }
+        }
+
+        .header .apple-float {
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: floatApple 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px #ff4444);
+            margin: 0 10px;
+        }
+
+        @keyframes floatApple {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .header .sub {
+            font-size: 1.1rem;
+            color: #c98a8a;
+            word-spacing: 6px;
+            border-top: 1px solid #571212;
+            display: inline-block;
+            padding-top: 8px;
+        }
+
+        /* 全球计数器——动态心跳 */
+        .counter-section {
+            background: #1f0101c9;
+            border: 1px solid #b33b3b;
+            border-radius: 60px;
+            padding: 20px 30px;
+            margin: 30px 0 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 0 30px #5e0b0b;
+        }
+
+        .counter-label {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .counter-label span {
+            font-size: 2.5rem;
+            animation: rotateSkull 4s infinite linear;
+            display: inline-block;
+        }
+
+        @keyframes rotateSkull {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(6deg); }
+            75% { transform: rotate(-6deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        #global-counter {
+            font-size: 3.8rem;
+            font-weight: 900;
+            background: linear-gradient(180deg, #ff7b7b, #b10000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 25px #ff0000, 0 0 45px #990000;
+            font-family: 'Courier New', monospace;
+            padding: 0 15px;
+            border-right: 3px solid #ad3a3a;
+            border-left: 3px solid #ad3a3a;
+            animation: counterPulse 1.6s infinite alternate ease-in-out;
+        }
+
+        @keyframes counterPulse {
+            from { text-shadow: 0 0 10px #ff5555, 0 0 30px #aa2222; transform: scale(1); }
+            to { text-shadow: 0 0 30px #ff0000, 0 0 70px #b30000; transform: scale(1.02); }
+        }
+
+        /* 加入表单 */
+        .join-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #802b2b;
+            border-radius: 40px;
+            padding: 20px 25px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px #2f0404;
+        }
+
+        .join-area input {
+            flex: 3 1 260px;
+            background: #1f0303;
+            border: 2px solid #a03a3a;
+            padding: 16px 20px;
+            font-size: 1.3rem;
+            color: #fad7d7;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .join-area input:focus {
+            border-color: #ff5e5e;
+            box-shadow: 0 0 25px #c20000;
+            background: #2f0707;
+        }
+
+        .join-area button {
+            flex: 1 1 160px;
+            background: transparent;
+            border: 3px solid #b33b3b;
+            color: #f3b6b6;
+            font-size: 1.8rem;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 15px #8b0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .join-area button:hover {
+            background: #a02b2b;
+            color: black;
+            border-color: #ffa0a0;
+            box-shadow: 0 0 40px #ff3737;
+            transform: scale(1.02);
+        }
+
+        .join-area button:active {
+            transform: scale(0.97);
+        }
+
+        /* 双列卡片：核心信徒 & 最新支持者 */
+        .supporters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #130101e0;
+            border: 2px solid #7a2929;
+            border-radius: 28px;
+            padding: 20px 15px;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 10px 30px #2f0000;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: #bc3f3f;
+            box-shadow: 0 0 35px #b30000;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            border-bottom: 2px dotted #a54c4c;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffb3b3;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .card-title i {
+            font-size: 2rem;
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { opacity: 0.8; text-shadow: 0 0 5px red; }
+            to { opacity: 1; text-shadow: 0 0 20px red, 0 0 30px darkred; }
+        }
+
+        .supporter-list {
+            list-style: none;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .supporter-list li {
+            font-size: 1.3rem;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(36, 2, 2, 0.7);
+            border-left: 6px solid #a10000;
+            border-radius: 20px 6px 6px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px #3c0404;
+            transition: 0.2s;
+            word-break: break-word;
+        }
+
+        .supporter-list li:hover {
+            background: #3b0a0a;
+            border-left-width: 12px;
+            transform: translateX(6px);
+            border-color: #ff7b7b;
+        }
+
+        /* 动态入场动画 (用于新加入的支持者) */
+        .supporter-list li.new-entry {
+            animation: slideIn 0.5s ease-out, glowNew 1.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(40px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes glowNew {
+            0% { background-color: #8b1a1a; box-shadow: 0 0 25px red; }
+            100% { background-color: rgba(36, 2, 2, 0.7); box-shadow: 0 2px 6px #3c0404; }
+        }
+
+        /* 苹果点缀 */
+        .apple-icon {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 6px #ff6d6d);
+        }
+
+        /* 页脚——琉克的低语 */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #631919;
+            font-size: 1.3rem;
+            color: #bc7a7a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer .ryuk {
+            animation: whisper 3s infinite;
+        }
+
+        @keyframes whisper {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); color: #ff8a8a; }
+        }
+
+        /* 自定义滚动条 */
+        .supporter-list::-webkit-scrollbar {
+            width: 8px;
+            background: #1e0101;
+        }
+
+        .supporter-list::-webkit-scrollbar-thumb {
+            background: #a52a2a;
+            border-radius: 10px;
+            border: 1px solid #5c1212;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .supporters-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2.4rem; letter-spacing: 4px; }
+            #global-counter { font-size: 2.8rem; }
+        }
+    </style>
+    <!-- 引入哥特风格字体 Cinzel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域：漂浮苹果 + 死亡笔记标题 -->
+        <div class="header">
+            <div>
+                <span class="apple-float">🍎</span>
+                <span class="apple-float">📓</span>
+                <span class="apple-float">💀</span>
+            </div>
+            <h1>KIRA 支持者</h1>
+            <div class="sub">⚡ 新世界的神 · 正义由基拉定义 ⚡</div>
+        </div>
+
+        <!-- 动态计数器 -->
+        <div class="counter-section">
+            <div class="counter-label">
+                <span>💀</span> 全球信徒
+            </div>
+            <div id="global-counter">1,203,456</div>
+            <div class="counter-label">
+                <span>🍎</span> 不断增长
+            </div>
+        </div>
+
+        <!-- 加入表单 -->
+        <div class="join-area">
+            <input type="text" id="supporterName" placeholder="写下你的名字 (支持基拉)" maxlength="30">
+            <button id="joinBtn"><span>➕</span> 支持</button>
+        </div>
+
+        <!-- 核心信徒 & 最新支持者 两列布局 -->
+        <div class="supporters-grid">
+            <!-- 左边：核心信徒 (静态) 但带有动态悬停 -->
+            <div class="card">
+                <div class="card-title">
+                    <i>🗡️</i> 核心信徒 <i>🗡️</i>
+                </div>
+                <ul class="supporter-list">
+                    <li><span class="apple-icon">🍎</span> 弥海砂 (Misa Amane)</li>
+                    <li><span class="apple-icon">🍎</span> 魅上照 (Teru Mikami)</li>
+                    <li><span class="apple-icon">🍎</span> 火口卿介 (Kyosuke Higuchi)</li>
+                    <li><span class="apple-icon">🍎</span> 雷姆 (Rem)</li>
+                    <li><span class="apple-icon">🍎</span> 琉克 (Ryuk · 旁观者)</li>
+                    <li><span class="apple-icon">🍎</span> 夜神总一郎 (暗中支持)</li>
+                </ul>
+            </div>
+
+            <!-- 右边：最新支持者 (动态渲染) -->
+            <div class="card">
+                <div class="card-title">
+                    <i>🕯️</i> 最新加入 <i>🕯️</i>
+                </div>
+                <ul class="supporter-list" id="recentList">
+                    <!-- 由 JavaScript 动态生成 -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- 页脚：琉克的名言 + 闪烁 -->
+        <div class="footer">
+            <span class="ryuk">👻 “人类果然很有趣呢” — 琉克</span>
+            <span>📖 死亡笔记永不过时</span>
+            <span class="apple-float" style="animation-duration: 2.5s;">🍎</span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ----- 初始化数据 -----
+            // 全球支持者基数 (动态增加)
+            let globalCount = 1203456;   
+
+            // 最新支持者名单 (预设几个，展示活跃)
+            let recentNames = [
+                "Kira_Justice", 
+                "NewWorldGod", 
+                "AppleLover_22", 
+                "MisaMisaFan", 
+                "夜神月_信徒"
+            ];  // 保持最多10条，新加入会挤掉最旧的
+
+            // 获取DOM元素
+            const counterSpan = document.getElementById('global-counter');
+            const recentListUl = document.getElementById('recentList');
+            const inputName = document.getElementById('supporterName');
+            const joinBtn = document.getElementById('joinBtn');
+
+            // ----- 辅助函数：千位分隔(其实toLocaleString自带) -----
+            function formatNumber(num) {
+                return num.toLocaleString('en-US');
+            }
+
+            // 更新计数器显示
+            function updateCounterDisplay() {
+                counterSpan.innerText = formatNumber(globalCount);
+            }
+
+            // ----- 渲染最新支持者列表 (带动态类) -----
+            function renderRecentList(newlyAddedName = null) {
+                // 清空列表
+                recentListUl.innerHTML = '';
+
+                if (recentNames.length === 0) {
+                    // 如果没人，显示占位符
+                    const placeholderLi = document.createElement('li');
+                    placeholderLi.textContent = '🍎 等待第一位基拉支持者...';
+                    placeholderLi.style.opacity = '0.8';
+                    placeholderLi.style.fontStyle = 'italic';
+                    recentListUl.appendChild(placeholderLi);
+                } else {
+                    // 遍历数组渲染 (最新在上，所以我们不反转，因为添加时unshift)
+                    recentNames.forEach(name => {
+                        const li = document.createElement('li');
+                        li.textContent = `🍎 ${name}`;  // 使用textContent避免XSS
+                        // 如果是刚刚添加的名字，添加上新动画类
+                        if (newlyAddedName && name === newlyAddedName) {
+                            li.classList.add('new-entry');
+                        }
+                        recentListUl.appendChild(li);
+                    });
+                }
+            }
+
+            // ----- 增加全球计数器 (随机增量，更有动态感) -----
+            function increaseCounterRandom(min = 80, max = 220) {
+                const inc = Math.floor(Math.random() * (max - min + 1)) + min;
+                globalCount += inc;
+                updateCounterDisplay();
+                return inc;
+            }
+
+            // ----- 加入新支持者逻辑 -----
+            function addSupporter() {
+                let rawName = inputName.value.trim();
+                if (rawName === '') {
+                    alert('请写入你的名字，以证明你对基拉的信仰！');
+                    return;
+                }
+
+                // 限制长度，防止溢出
+                if (rawName.length > 30) rawName = rawName.slice(0, 30);
+
+                // 1. 将名字添加到 recentNames 数组的最前面（最新）
+                recentNames.unshift(rawName);
+
+                // 2. 保持最多10条，超过则删除末尾（最旧的）
+                if (recentNames.length > 10) {
+                    recentNames.pop();
+                }
+
+                // 3. 计数器增加 (100~250 以表狂热)
+                const inc = Math.floor(Math.random() * 150) + 100;  // 100~250
+                globalCount += inc;
+
+                // 4. 更新UI
+                updateCounterDisplay();
+                // 传入刚刚添加的名字，使其高亮动画
+                renderRecentList(rawName);
+
+                // 5. 清空输入框，保持焦点
+                inputName.value = '';
+                inputName.focus();
+
+                // 可选：控制台输出增量信息
+                console.log(`✨ ${rawName} 加入基拉阵营！ 信徒 +${inc}`);
+            }
+
+            // ----- 自动增长计数器 (每2.5秒增加少量，模拟全球持续增长) -----
+            function startAutoIncrement() {
+                setInterval(() => {
+                    // 增加 1~7 人 (自然增长)
+                    const smallInc = Math.floor(Math.random() * 7) + 1;  // 1~7
+                    globalCount += smallInc;
+                    updateCounterDisplay();
+                }, 2500);
+            }
+
+            // ----- 初始化页面：渲染列表，启动自动增长，绑定事件 -----
+            function init() {
+                // 初始渲染 (没有新加入的高亮)
+                renderRecentList();
+
+                // 启动全球自动增长
+                startAutoIncrement();
+
+                // 绑定支持按钮点击事件
+                joinBtn.addEventListener('click', addSupporter);
+
+                // 绑定回车键
+                inputName.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addSupporter();
+                    }
+                });
+
+                // 附加小心跳：手动触发一次高亮计数器 (已经动画)
+            }
+
+            // 启动一切
+            init();
+        })();
+    </script>
+</body>
+</html>
