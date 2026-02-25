@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神人记录i</title>
+    <!-- Font Awesome 6 (用于视频占位图标) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: url('back/backa.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            line-height: 1.5;
+            animation: fadeIn 1.2s ease;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* 半透明遮罩层，让背景柔和、文字清晰 */
+        .page-wrapper {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 页面标题（占位，不涉及具体人物） */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 600;
+            color: #1e3c5c;
+            text-shadow: 0 4px 15px rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.4);
+            display: inline-block;
+            padding: 0.5rem 2.5rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #1e3a4b;
+            margin-top: 1rem;
+            background: rgba(255,255,255,0.5);
+            display: inline-block;
+            padding: 0.4rem 2rem;
+            border-radius: 40px;
+        }
+
+        /* 卡片网格：三个视频+描述 */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+        }
+
+        .trait-card {
+            display: flex;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.4s;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .trait-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 28px 45px -12px rgba(0, 40, 70, 0.3);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 左侧视频预留区 (40%宽度，最小300px) */
+        .video-zone {
+            flex: 1 1 300px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(145deg, #d4e2f0, #b6cae0);
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #1e3f60;
+            border: 2px dashed rgba(255,255,255,0.9);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6), 0 8px 18px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .trait-card:hover .video-placeholder {
+            background: linear-gradient(145deg, #e3efff, #c9daf5);
+            border-color: #ffffff;
+        }
+
+        .video-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #0f2f4a;
+        }
+
+        /* 右侧描述区 */
+        .desc-zone {
+            flex: 2 1 400px;
+            padding: 2rem 2rem 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .desc-zone h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #0f2b40;
+            margin-bottom: 1rem;
+            border-left: 6px solid #2f6a9c;
+            padding-left: 1rem;
+        }
+
+        .desc-zone p {
+            font-size: 1.1rem;
+            color: #1d3347;
+            background: rgba(255,255,255,0.5);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        /* 占位描述内的注释样式 (不影响阅读) */
+        .comment-note {
+            color: #6b4f32;
+            background: #fff2d0;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        /* 底部提示 */
+        .page-footer {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .nav-hint {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 40px;
+            padding: 0.8rem 2rem;
+            display: inline-block;
+            color: #102b3f;
+            border: 1px solid white;
+        }
+
+        .nav-hint i {
+            margin: 0 0.5rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <!-- 头部占位（不写具体人物） -->
+            <div class="hero">
+                <h1>第一篇 神人 · 李杨</h1>
+              
+            </div>
+
+            <!-- 三个视频卡片 —— 视频路径和描述文本均已留出注释 -->
+            <div class="card-grid">
+
+                <!-- 卡片 1 -->
+                <div class="trait-card">
+                    <div class="video-zone">
+                        <video src="back/a.mp4" controls style="width:100%; border-radius:1.5rem;"></video>
+                    </div>
+                    <div class="desc-zone">
+                        <h2>李杨巡视</h2>
+                        <!-- 描述1：请在此处填写具体的人物事迹描述 -->
+                        <p>✨ 李杨同志在班级进行巡视<br>
+                        <span class="comment-note"><i class="fas fa-pencil-alt"></i>还看了一眼镜头</span></p>
+                        <!-- 描述1结束 -->
+                    </div>
+                </div>
+
+                <!-- 卡片 2 -->
+                <div class="trait-card">
+                    <div class="video-zone">
+                        <video src="back/b.mp4" controls style="width:100%; border-radius:1.5rem;"></video>
+                    </div>
+                    <div class="desc-zone">
+                        <h2>李杨进行雷人书写</h2>
+                        <!-- 描述2：请在此处填写具体的人物事迹描述 -->
+                        <p>🌟 李杨发布考试须知<br>
+                        <span class="comment-note"><i class="fas fa-pencil-alt"></i> 神人写字</span></p>
+                        <!-- 描述2结束 -->
+                    </div>
+                </div>
+
+                <!-- 卡片 3 -->
+                <div class="trait-card">
+                    <div class="video-zone">
+                        <video src="back/c.mp4" controls style="width:100%; border-radius:1.5rem;"></video>
+                    </div>
+                    <div class="desc-zone">
+                        <h2>重大事件！！社会人组织入驻快手</h2>
+                        <!-- 描述3：请在此处填写具体的人物事迹描述 -->
+                        <p>🌿 李杨进行入驻演讲<br>
+                        <span class="comment-note"><i class="fas fa-pencil-alt"></i>这里是社会人组织</span></p>
+                        <!-- 描述3结束 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提示链接到第二页（深色风格） -->
+            <div class="page-footer">
+                <div class="nav-hint">
+                    <i class="fas fa-arrow-left"></i>
+                    <a href="two.html" style="color:#13191d; font-weight:600; text-decoration:none;">点击切换至沈鸿阳</a>  
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <p style="margin-top:1.5rem; color:#1e3e5c;">背景图片：/back/beijing.jpg（已应用）<br>所有视频占位及描述注释均已标注，请自行替换。</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
